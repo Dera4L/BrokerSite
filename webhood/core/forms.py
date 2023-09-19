@@ -39,5 +39,15 @@ class LoginForm(AuthenticationForm):
     }))
 
 
+class PaymentForm(AuthenticationForm):
+    amount =  forms.FloatField(widget=forms.TextInput(attrs={
+        'placeholder': 'Input Amount',
+        'class' : 'w-full py-4 px-6 rounded-xl'
+    }))
+    
+    paymentdescription =  forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Description',
+        'class' : 'w-full py-4 px-6 rounded-xl'
+    }))
 
 

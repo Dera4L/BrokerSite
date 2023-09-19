@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
+from .models import Balance
+
+import random
 # Create your views here.
 from .forms import SignupForm
-
 
 
 def index(request):
@@ -12,7 +14,12 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'core/dashboard.html')
+    balance = Balance.objects.get(user=request.user)
+    
+        
+    return render(request, 'core/dashboard.html',{
+        'balance':balance,
+    })
 
 
 
@@ -36,3 +43,20 @@ def signup(request):
 def logout_view(request):
     logout(request)
     return redirect('/login/')
+
+
+def generate_random(min_value, max_value):
+    return random.randint(min_value, max_value)
+
+
+@login_required
+def make_payment(request):
+    
+    transfer_id = generate_random(100000000000, 50000000000000)
+    
+    
+    return render(request, 'core/payment.html')
+
+
+
+    
