@@ -49,5 +49,33 @@ class PaymentForm(AuthenticationForm):
         'placeholder': 'Description',
         'class' : 'w-full py-4 px-6 rounded-xl'
     }))
+    
+    
 
+
+
+
+class TransactionForm(forms.Form):
+    coin_choices = (
+        ('BTC', 'Bitcoin - BTC'),
+        ('ETH', 'Ethereum - ETH'),
+        ('LTC', 'Litecoin - LTC'),
+        # Add more coins as needed
+    )
+    coin = forms.ChoiceField(choices=coin_choices, label='Select Coin')
+    paymentdescription =  forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Description',
+        'class' : 'w-full py-4 px-6 rounded-xl'
+    }))
+    amount =  forms.FloatField(widget=forms.TextInput(attrs={
+        'placeholder': 'Input Amount',
+        'class' : 'w-full py-4 px-6 rounded-xl'
+    }))
+    
+    coin_choices_dict = {
+        'BTC': 'BTC_ADDRESS',
+        'ETH': 'ETH_ADDRESS',
+        'LTC': 'LTC_ADDRESS',
+        # Add more coin addresses as needed
+    }
 

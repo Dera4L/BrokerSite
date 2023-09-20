@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from .forms import *
+import random
+import uuid
 
-from .models import Balance
+
+from .models import *
 
 import random
 # Create your views here.
@@ -40,9 +44,10 @@ def signup(request):
         'form': form
     })
 
+@login_required
 def logout_view(request):
     logout(request)
-    return redirect('/login/')
+    return redirect('/')
 
 
 def generate_random(min_value, max_value):
@@ -58,5 +63,48 @@ def make_payment(request):
     return render(request, 'core/payment.html')
 
 
-
+def generate_transaction_id():
+    #Generate a random 8-digit number
+    random_number = random.randint(10000, 999999)
     
+    #Generate a random 9-digit number
+    random_number2 = random.randint(100000, 9999999)
+    
+    
+    # Generate a uuid and convert it to a string
+    unique_id = str(uuid.uuid4())
+    
+    transaction_id = f"{random_number}-{random_number2}-{unique_id}"
+    
+    return transaction_id
+
+
+
+@login_required
+def select_coin(request):
+    if request.method == 'POST':
+        form = TransactionForm(request.POST)
+        if form.is_valid():
+            selected_coin = form.cleaned_data['coin']
+            user = request.user  # Get the currently logged-in user
+            description = form.cleaned_data['paymentdescription']
+            amount = form.cleaned_data['amount']
+            transaction_id = generate_transaction_id()
+            Transaction.objects.create(user=user, coin=selected_coin, payment_description=description, amount=amount, transaction_id=transaction_id)  # Save the selection
+            return redirect('/dashboard/') 
+    else:
+        form = TransactionForm()
+
+    return render(request, 'core/fruit_select.html', {'form': form})
+
+# def select_coin(request):
+#     if request.method == 'POST':
+#         form = TransactionForm(request.POST)
+#         if form.is_valid():
+#             selected_coin = form.cleaned_data['coin']
+#             address = TransactionForm.coin_choices_dict.get(selected_coin)
+#             form.fields['address'].initial = address
+#     else:
+#         form = TransactionForm()
+
+#     return render(request, 'core/fruit_select.html', {'form': form})

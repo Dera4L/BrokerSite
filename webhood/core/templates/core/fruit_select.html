@@ -1,0 +1,21 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit</button>
+    
+</form>
+
+
+
+{% comment %} <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const copyButton = document.getElementById('copy-button');
+        const addressField = document.getElementById('{{ form.address.id_for_label }}');
+
+        copyButton.addEventListener('click', function() {
+            addressField.select();
+            document.execCommand('copy');
+            addressField.setSelectionRange(0, 0);
+        });
+    });
+</script> {% endcomment %}
