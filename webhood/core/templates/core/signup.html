@@ -6,7 +6,14 @@
 <div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
     <h1 class="mb-6 text-3xl">Sign up</h1>
 
-    <form method="post" action=".">
+    {% if user.is_authenticated %}
+        <p>You are already logged in as {{ user.username }}</p>
+        <a class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white" href="{% url "core:dashboard" %}">Dasboard</a>
+        <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Dashboard</button>
+
+    {% else %}
+    
+        <form method="post" action=".">
         {% csrf_token %}
         
 
@@ -42,5 +49,6 @@
         <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit</button>
         <u><ul><a href="{% url 'core:login' %}">Already have an account</a></ul></u>
     </form>
+    {% endif %}
 </div>
 {% endblock %}

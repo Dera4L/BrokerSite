@@ -28,6 +28,7 @@ def dashboard(request):
 
 
 def signup(request):
+    
     if request.method == 'POST':
         form = SignupForm(request.POST)
 
@@ -91,7 +92,7 @@ def select_coin(request):
             amount = form.cleaned_data['amount']
             transaction_id = generate_transaction_id()
             Transaction.objects.create(user=user, coin=selected_coin, payment_description=description, amount=amount, transaction_id=transaction_id)  # Save the selection
-            return redirect('/dashboard/') 
+            return redirect('/dashboard/')
     else:
         form = TransactionForm()
 
