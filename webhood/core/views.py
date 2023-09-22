@@ -98,6 +98,25 @@ def select_coin(request):
 
     return render(request, 'core/fruit_select.html', {'form': form})
 
+
+@login_required
+def transaction(request):
+    transactions = Transaction.objects.all()
+    return render(request, 'core/transaction.html',{
+        'transactions':transactions
+    })
+
+
+
+
+
+
+
+
+
+
+
+
 # def select_coin(request):
 #     if request.method == 'POST':
 #         form = TransactionForm(request.POST)
@@ -109,3 +128,4 @@ def select_coin(request):
 #         form = TransactionForm()
 
 #     return render(request, 'core/fruit_select.html', {'form': form})
+

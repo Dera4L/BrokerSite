@@ -8,8 +8,10 @@
 
     {% if user.is_authenticated %}
         <p>You are already logged in as {{ user.username }}</p>
-        <a class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white" href="{% url "core:dashboard" %}">Dasboard</a>
-        <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Dashboard</button>
+        <p>If you are not redirected , <a href={% url "core:dashboard" %}>click here</a></p>
+
+        {% comment %} <a class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white" href="{% url "core:dashboard" %}">Dasboard</a>
+        <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Dashboard</button> {% endcomment %}
 
     {% else %}
     
