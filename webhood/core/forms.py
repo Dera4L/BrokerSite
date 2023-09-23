@@ -60,12 +60,13 @@ class TransactionForm(forms.Form):
         ('BTC', 'Bitcoin - BTC'),
         ('ETH', 'Ethereum - ETH'),
         ('LTC', 'Litecoin - LTC'),
+        ('USDT', 'Tether- USDT'),
         # Add more coins as needed
     )
     coin = forms.ChoiceField(choices=coin_choices, label='Select Coin')
     paymentdescription =  forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Description',
-        'class' : 'w-full py-4 px-6 rounded-xl'
+        'class' : 'w-half py-4 px-6 rounded-xl bg-white text-black'
     }))
     amount =  forms.FloatField(widget=forms.TextInput(attrs={
         'placeholder': 'Input Amount',
@@ -76,6 +77,12 @@ class TransactionForm(forms.Form):
         'BTC': 'BTC_ADDRESS',
         'ETH': 'ETH_ADDRESS',
         'LTC': 'LTC_ADDRESS',
+        'USDT': 'USDT_ADDRESS',
         # Add more coin addresses as needed
     }
 
+class BitcoinAddressForm(forms.Form):
+    address_no = forms.CharField(max_length=100, label='Coin Address')
+    address_name = forms.CharField(max_length=100, label='Address name')
+    
+    

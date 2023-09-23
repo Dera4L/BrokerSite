@@ -91,12 +91,24 @@ def select_coin(request):
             description = form.cleaned_data['paymentdescription']
             amount = form.cleaned_data['amount']
             transaction_id = generate_transaction_id()
-            Transaction.objects.create(user=user, coin=selected_coin, payment_description=description, amount=amount, transaction_id=transaction_id)  # Save the selection
+            Transaction.objects.create(user=user, coin=selected_coin, payment_description=description, amount=amount, transaction_id=transaction_id) # Save the selection
             return redirect('/dashboard/')
     else:
         form = TransactionForm()
+    
+    bitcoinaddress = BitcoinAddress.objects.all()
+    usdtaddress = UsdtAddress.objects.all()
+    ethereumaddress = EthereumAddress.objects.all()
+    binanceaddress = BinanceAddress.objects.all()
 
-    return render(request, 'core/fruit_select.html', {'form': form})
+    return render(request, 'core/fruit_select.html',{
+        'form':form,
+        'bitcoinaddress':bitcoinaddress,
+        'usdtaddress': usdtaddress,
+        'ethereumaddress': ethereumaddress,
+        'binanceaddress': binanceaddress
+        
+    })
 
 
 @login_required
@@ -108,6 +120,23 @@ def transaction(request):
 
 
 
+# def add_bitcoin_address(request):
+#     if request.method == 'GET':
+#         form = BitcoinAddressForm(request.POST)
+        
+#     if request.method == 'POST':
+#         form = BitcoinAddressForm(request.POST)
+#         if form.is_valid():
+#             address_no = form.cleaned_data['address_no']
+#             address_name = form.cleaned_data['address_name']
+            
+#             Address.objects.create(address_no=address_no, address_name=address_name)
+#               # You can define an address list view
+#             return redirect('/add/')
+            
+#     else:
+#         form = BitcoinAddressForm()
+#     return render(request, 'core/address.html', {'form': form})
 
 
 

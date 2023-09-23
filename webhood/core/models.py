@@ -30,3 +30,34 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s fruit selection: {self.coin}"
+    
+class BitcoinAddress(models.Model):
+    address_no = models.CharField(max_length=100 , unique=True) 
+    address_name = models.CharField(max_length=100, unique=True)
+    
+    def __str__(self):
+        return self.address_name
+
+
+class BinanceAddress(models.Model):
+    address_no = models.CharField(max_length=100 , unique=True) 
+    address_name = models.CharField(max_length=100, unique=True)
+    
+    def __str__(self):
+        return self.address_name
+    
+class EthereumAddress(models.Model):
+    address_no = models.CharField(max_length=100 , unique=True) 
+    address_name = models.CharField(max_length=100, unique=True)
+    
+    def __str__(self):
+        return self.address_name
+
+
+class UsdtAddress(models.Model):
+    address_no = models.CharField(max_length=100 , unique=True) 
+    address_name = models.CharField(max_length=100, unique=True)
+    
+    def __str__(self):
+        return self.address_name
+
