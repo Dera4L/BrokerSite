@@ -30,3 +30,7 @@ class BinanceAddressAdmin(admin.ModelAdmin):
 @admin.register(UsdtAddress)
 class UsdtAddressAdmin(admin.ModelAdmin):
     list_display = ('address_name', 'address_no')
+    
+@admin.register(Packages)
+class PackagesAdmin(admin.ModelAdmin):
+    list_display = ('package_name','package_details1','package_details2','package_details3','package_details4','package_range1','package_range2')

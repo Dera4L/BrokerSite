@@ -141,7 +141,10 @@ def confirm(request):
     
 @login_required
 def packages(request):
-    return render(request, 'core/packages.html')
+    packages = Packages.objects.all()
+    return render(request, 'core/packages.html',{
+        'packages':packages,
+    })
 
 
 
