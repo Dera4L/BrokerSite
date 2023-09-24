@@ -17,6 +17,8 @@ urlpatterns = [
     # path('add/', views.add_bitcoin_address, name='add_bitcoin_address'),
     path('login/', auth_views.LoginView.as_view(template_name='core/login.html', authentication_form=LoginForm), name='login'),
     path('select-coin/', views.select_coin, name='select_coin'),
+    path('confirm/', views.confirm, name='confirm'),
+    path('packages/', views.packages, name='packages'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:

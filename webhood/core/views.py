@@ -83,6 +83,33 @@ def generate_transaction_id():
 
 @login_required
 def select_coin(request):
+    
+    
+    bitcoinaddress = BitcoinAddress.objects.all()
+    usdtaddress = UsdtAddress.objects.all()
+    ethereumaddress = EthereumAddress.objects.all()
+    binanceaddress = BinanceAddress.objects.all()
+
+    return render(request, 'core/fruit_select.html',{
+        'bitcoinaddress':bitcoinaddress,
+        'usdtaddress': usdtaddress,
+        'ethereumaddress': ethereumaddress,
+        'binanceaddress': binanceaddress
+        
+    })
+
+
+@login_required
+def transaction(request):
+    transactions = Transaction.objects.all()
+    return render(request, 'core/transaction.html',{
+        'transactions':transactions
+    })
+
+
+
+@login_required
+def confirm(request):
     if request.method == 'POST':
         form = TransactionForm(request.POST)
         if form.is_valid():
@@ -101,7 +128,7 @@ def select_coin(request):
     ethereumaddress = EthereumAddress.objects.all()
     binanceaddress = BinanceAddress.objects.all()
 
-    return render(request, 'core/fruit_select.html',{
+    return render(request, 'core/confirm.html',{
         'form':form,
         'bitcoinaddress':bitcoinaddress,
         'usdtaddress': usdtaddress,
@@ -109,14 +136,12 @@ def select_coin(request):
         'binanceaddress': binanceaddress
         
     })
+    
 
-
+    
 @login_required
-def transaction(request):
-    transactions = Transaction.objects.all()
-    return render(request, 'core/transaction.html',{
-        'transactions':transactions
-    })
+def packages(request):
+    return render(request, 'core/packages.html')
 
 
 

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -130,3 +131,27 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:8000/",  # Change this to your Redis server address
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
+
+SESSION_EXPIRE_SECONDS = 1800
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_TIMEOUT_REDIRECT = '/login/' # Add your URL
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True # Invalid session
+
+# # Use the custom JSON encoder for session serialization
+# SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+
+# # Use your custom encoder here
+# SESSION_SERIALIZER_KWARGS = {'cls': DateTimeEncoder}
+
+# # Use Django's database-backed sessions
+# SESSION_ENGINE = 'django.contrib.sessions.backends.db'

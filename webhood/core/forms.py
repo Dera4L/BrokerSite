@@ -63,14 +63,19 @@ class TransactionForm(forms.Form):
         ('USDT', 'Tether- USDT'),
         # Add more coins as needed
     )
-    coin = forms.ChoiceField(choices=coin_choices, label='Select Coin')
+    coin = forms.ChoiceField(choices=coin_choices, label='Select Coin', widget=forms.Select(attrs={
+        'class': 'form-select',  # Apply Bootstrap's form-select class for styling
+        'id': 'coin-select',  # Unique ID for this field
+    }))
     paymentdescription =  forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Description',
-        'class' : 'w-half py-4 px-6 rounded-xl bg-white text-black'
+        'class' : 'form-control',
+        'id':'floatingInputValue',
     }))
     amount =  forms.FloatField(widget=forms.TextInput(attrs={
         'placeholder': 'Input Amount',
-        'class' : 'w-full py-4 px-6 rounded-xl'
+        'class' : 'form-control',
+        'id':'floatingInputValue',
     }))
     
     coin_choices_dict = {
