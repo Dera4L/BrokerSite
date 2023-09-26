@@ -73,10 +73,21 @@
                 <a class="nav-link collapsed" href="{% url 'core:packages' %}"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-warehouse"></i>
-                    <span>Investments</span>
+                    <span>Packages</span>
                 </a>
                 
             </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'core:select_coin' %}"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fa-solid fa-warehouse"></i>
+                    <span>Deposit</span>
+                </a>
+                
+            </li>
+
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
@@ -128,7 +139,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'core:select_coin' %}">
+                <a class="nav-link" href="{% url 'core:transaction' %}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Transactions</span></a>
             </li>
@@ -383,26 +394,55 @@
                           white-space: pre-line;
                         }
                       </style>
-                        <div class="row">
+                         <div class="row">
                         {% for package in packages %}
                           <div class="col">
-                            <div class="card" style="width: 18rem;">
-                                {% comment %} <img src="..." class="card-img-top" alt="..."> {% endcomment %}
+                            <div class="card" style="width: 18rem;"> 
                                 <div class="card-body text-center">
                                 <h5 class="card-title">{{package.package_name}}</h5>
                                 <p class="card-text line-break-after-period">{{package.package_details1}}.</p>
                                 <p class="card-text line-break-after-period">{{package.package_details2}}.</p>
                                 <p class="card-text line-break-after-period">{{package.package_details3}}.</p>
                                 <p class="card-text line-break-after-period">{{package.package_details4}}.</p>
+                                <p class="card-text line-break-after-period">Starts at ${{package.package_range1}}.</p>
+                                <p class="card-text line-break-after-period">Ends at ${{package.package_range2}}.</p>
 
 
 
-                                <a href="#" class="btn btn-primary">Activate Package</a>
+
+
+                                <form method="post">
+                                    {% csrf_token %}
+                                    
+                                    
+                                    <div class="mb-3">
+                                        <label for="{{ form.amount.id_for_label }}" class="form-label text-center class badge bg-secondary text-wrap" style="width:7rem;"><strong>AMOUNT</strong></label>
+                                        {{ form.amount }}
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
                                 </div>
                             </div>
                           </div>
                         {% endfor %}
-                        </div>
+                        </div> 
+
+
+                        {% comment %} <form method="post">
+                            {% csrf_token %}
+                            {% for package in packages %}
+                            <input type="hidden" name="package_name" value="{{ package.package_name }}">
+                            <h5 class="card-title">{{package.package_name}}</h5>
+                            
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.amount.id_for_label }}" class="form-label text-center class badge bg-secondary text-wrap" style="width:7rem;"><strong>AMOUNT</strong></label>
+                                {{ form.amount }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            {% endfor %}
+                        </form> {% endcomment %}
+                        
 
                 
 

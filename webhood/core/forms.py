@@ -85,9 +85,19 @@ class TransactionForm(forms.Form):
         'USDT': 'USDT_ADDRESS',
         # Add more coin addresses as needed
     }
+    
+    
+    
+class BuyItemForm(forms.Form):
+    amount = forms.IntegerField(widget=forms.TextInput(attrs={
+        'placeholder': 'Input Amount',
+        'class':'form-control',
+        'id': 'floatingInputValue',
+    }))
+
+    
 
 class BitcoinAddressForm(forms.Form):
     address_no = forms.CharField(max_length=100, label='Coin Address')
     address_name = forms.CharField(max_length=100, label='Address name')
-    
     

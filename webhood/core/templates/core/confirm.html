@@ -70,10 +70,10 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{% url 'core:dashboard' %}"
+                <a class="nav-link collapsed" href="{% url 'core:packages' %}"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-warehouse"></i>
-                    <span>Investments</span>
+                    <span>Packages</span>
                 </a>
                 
             </li>
@@ -106,7 +106,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            {% comment %} <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -124,11 +124,11 @@
                         <a class="collapse-item" href="blank.html">Blank Page</a>
                     </div>
                 </div>
-            </li>
+            </li> {% endcomment %}
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'core:select_coin' %}">
+                <a class="nav-link" href="{% url 'core:transaction' %}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Transactions</span></a>
             </li>
@@ -373,7 +373,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Confirm Payment</h1>
                         {% comment %} <a href="{% url 'core:logout' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Logout</a> {% endcomment %}
                     </div>

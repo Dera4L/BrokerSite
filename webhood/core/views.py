@@ -142,8 +142,21 @@ def confirm(request):
 @login_required
 def packages(request):
     packages = Packages.objects.all()
+    if request.method == "POST":
+        form = BuyItemForm(request.POST)
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+            package_name = request.POST.get('package_name')
+            user = request.user
+            ActivePackages.objects.create(user=user, amount=amount, package_name=package_name)
+            return redirect('/packages/')
+    else:
+        form = BuyItemForm()
+
     return render(request, 'core/packages.html',{
+        'form':form,
         'packages':packages,
+        
     })
 
 
