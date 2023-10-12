@@ -3,10 +3,9 @@ from .models import *
 # Register your models here.
 
 
-@admin.register(Balance)
-class BalanceAdmin(admin.ModelAdmin):
-    list_display = ('user', 'amount')
-    
+@admin.register(UserDetails)
+class UserDetailsAdmin(admin.ModelAdmin):
+    list_display = ('user', 'date_of_birth','address')
    
 
     
@@ -33,4 +32,8 @@ class UsdtAddressAdmin(admin.ModelAdmin):
     
 @admin.register(Packages)
 class PackagesAdmin(admin.ModelAdmin):
-    list_display = ('package_name','package_details1','package_details2','package_details3','package_details4','package_range1','package_range2')
+    list_display = ('id','package_name','package_details1','package_details2','package_details3','package_details4','package_range1','package_range2')
+    
+# @admin.register(ActivePackages)
+# class ActivePackages(admin.ModelAdmin):
+#     list_display = ('amount_invested','package_name')

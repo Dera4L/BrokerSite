@@ -1,9 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 from django.contrib.auth import logout
 from .forms import *
 import random
+from decimal import Decimal
 import uuid
+import decimal
 
 
 from .models import *
@@ -18,9 +21,8 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    balance = Balance.objects.get(user=request.user)
-    
-        
+    user = request.user
+    balance = UserDetails.objects.get(user=user)        
     return render(request, 'core/dashboard.html',{
         'balance':balance,
     })
@@ -28,22 +30,41 @@ def dashboard(request):
 
 
 def signup(request):
-    
     if request.method == 'POST':
         form = SignupForm(request.POST)
-
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
 
-            return redirect('/login/')
-    
-    else:
-    
-        form = SignupForm()
+            return redirect('/details/')
 
+    form = SignupForm()
     return render(request, 'core/signup.html', {
         'form': form
     })
+
+@login_required
+def userdetails(request):
+    if request.method == 'POST':
+        form = UserDetailsForm(request.POST)
+        if form.is_valid():
+            address = form.cleaned_data['address']
+            date_of_birth = form.cleaned_data['date_of_birth']
+            user = request.user
+            
+            UserDetails.objects.create(user=user, address=address, date_of_birth=date_of_birth)
+            
+            return redirect('/dashboard/')
+    
+    else:
+        form = UserDetailsForm()
+        
+    return render(request, 'core/details.html',{
+        'form':form
+    })
+            
+
+
 
 @login_required
 def logout_view(request):
@@ -101,9 +122,24 @@ def select_coin(request):
 
 @login_required
 def transaction(request):
-    transactions = Transaction.objects.all()
-    return render(request, 'core/transaction.html',{
-        'transactions':transactions
+    user = request.user
+    transactions = Transaction.objects.filter(user=user)
+    # confirmed_transactions = Transaction.objects.filter(user=user, confirmed=True)
+
+    # Calculate the balance by iterating over confirmed transactions
+    # balance = UserDetails.objects.get(user=user).balance
+    # for transaction in confirmed_transactions:
+    #     balance += transaction.amount
+
+    # # Update the user's UserDetails object with the calculated balance
+    # user_details = get_object_or_404(UserDetails, user=user)
+    # user_details.balance = balance
+    # user_details.save()
+
+    return render(request, 'core/transaction.html', {
+        # 'confirmed_transactions': confirmed_transactions,
+        'transactions': transactions
+        # 'balance': balance,
     })
 
 
@@ -137,27 +173,96 @@ def confirm(request):
         
     })
     
+    packages = Packages.objects.all()
 
-    
+    if request.method == 'POST':
+        form = InvestmentForm(request.POST)
+        if form.is_valid():
+            amount_to_invest = form.cleaned_data['amount']
+            selected_package_name = request.POST.get('package_name')  # Assuming you have a package selection in your form
+            selected_package = Packages.objects.get(package_name=selected_package_name)
+
+            # Check if user's balance is sufficient
+            if request.user.balance.amount >= amount_to_invest:
+                # Update user's balance by subtracting the investment amount
+                request.user.balance.amount -= amount_to_invest
+                request.user.balance.save()
+
+                # Create a record in the ActivePackages model
+                active_package = ActivePackages(user=request.user, package=selected_package, amount_invested=amount_to_invest)
+                active_package.save()
+
+                # Redirect or show a success message
+                # You can customize this part based on your application's requirements
+                # Display an error message indicating insufficient balance
+                # You can customize this part based on your application's requirements
+
+    else:
+        form = InvestmentForm()
+
+    return render(request, 'core/packages.html', {
+        'packages': packages,
+        'form': form,
+    })
+
 @login_required
 def packages(request):
-    packages = Packages.objects.all()
+    desired_name = "Bronze"
+    user=request.user
+    package1 = Packages.objects.filter(package_name=desired_name)
     if request.method == "POST":
-        form = BuyItemForm(request.POST)
+        form = InvestmentForm(request.POST)
         if form.is_valid():
-            amount = form.cleaned_data['amount']
-            package_name = request.POST.get('package_name')
-            user = request.user
-            ActivePackages.objects.create(user=user, amount=amount, package_name=package_name)
-            return redirect('/packages/')
+           amount_to_invest = form.cleaned_data['amount']
+           selected_package = desired_name
+           
+               
+            #    print(newbalance)
+           
+           
+        #    print(selected_package,amount_to_invest,balance.amount)
+           
+        #    if balance.amount >= amount_to_invest:
+        #        newbalance = balance.amount - amount_to_invest
+        #        print(newbalance)
+        else:
+            return redirect('/transaction')
     else:
-        form = BuyItemForm()
-
+        form = InvestmentForm()
+           
+    
+    
+    
     return render(request, 'core/packages.html',{
-        'form':form,
-        'packages':packages,
-        
+        'package1':package1,
+        'form':form
     })
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

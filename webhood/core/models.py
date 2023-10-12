@@ -7,10 +7,17 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
-    
-    
-    
+class UserDetails(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=200)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    date_of_birth = models.DateField()
+
+    def __str__(self):
+        return self.user.username
     
     
 
@@ -21,6 +28,7 @@ class Transaction(models.Model):
     amount = models.DecimalField(max_digits=100, decimal_places=2)
     transaction_id = models.CharField(max_length=200)
     confirmed = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user.username}'s fruit selection: {self.coin}"
@@ -60,6 +68,8 @@ class UsdtAddress(models.Model):
 
 class Packages(models.Model):
     # owner = models.ForeignKey(Balance, on_delete=models.CASCADE)
+    id = models.IntegerField(primary_key=True)
+    
     package_name = models.CharField(max_length=100, unique=True)
     package_details1 = models.CharField(max_length=400, default="features")
     package_details2 = models.CharField(max_length=400,default="features")
@@ -81,25 +91,33 @@ class Packages(models.Model):
     
     
     
-class Balance(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    package = models.ForeignKey(Packages, related_name='my_packages', on_delete=models.CASCADE,default="1")
-
-    def __str__(self):
-        return f"{self.user.username}'s Balance"
+# class Balance(models.Model):
     
-    def can_purchase(self, package_obj):
-        return self.amount >= package_obj.package_range1
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+#     def __str__(self):
+#         return str(self.amount)  # Ensure you return a string representation
+
+#     @classmethod
+#     def get_balance_for_user(cls, user):
+#         try:
+#             return cls.objects.get(user=user)
+#         except cls.DoesNotExist:
+#             # If there's no balance, create one with a default amount
+#             return cls.objects.create(user=user)
+    
+    
+    
 
 
 
 
     
-class ActivePackages(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=100, decimal_places=2, default=0)
-    package_name = models.ForeignKey(Packages, related_name='active_package', on_delete=models.CASCADE)
+# class ActivePackages(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     amount_invested = models.DecimalField(max_digits=100, decimal_places=2, default=0)
+#     package_name = models.CharField(max_length=300)
     
-    def __str__(self):
-        return f"{self.user.username}'s Package"
+#     def __str__(self):
+#         return f"{self.user.username}'s Package"

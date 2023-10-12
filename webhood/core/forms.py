@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from .models import *
 
 class SignupForm(UserCreationForm):
     class Meta:
@@ -25,6 +26,26 @@ class SignupForm(UserCreationForm):
         'placeholder': 'Confrim Password',
         'class' : 'w-full py-4 px-6 rounded-xl'
     }))
+    
+    
+
+
+
+class UserDetailsForm(forms.Form):
+    address =  forms.CharField(widget=forms.TextInput(attrs={
+    'placeholder': 'address',
+    'class' : 'w-full py-4 px-6 rounded-xl'
+    }))
+    
+    date_of_birth =  forms.DateField(widget=forms.DateInput(attrs={
+    'placeholder': 'Date of Birth',
+    'class' : 'w-full py-4 px-6 rounded-xl'
+    }))
+    
+        
+        
+
+
 
 
 class LoginForm(AuthenticationForm):
@@ -101,3 +122,7 @@ class BitcoinAddressForm(forms.Form):
     address_no = forms.CharField(max_length=100, label='Coin Address')
     address_name = forms.CharField(max_length=100, label='Address name')
     
+
+
+class InvestmentForm(forms.Form):
+    amount = forms.DecimalField(label='Amount to Invest')

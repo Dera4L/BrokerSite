@@ -395,11 +395,13 @@
                         }
                       </style>
                          <div class="row">
-                        {% for package in packages %}
+                        {% for package in package1 %}
                           <div class="col">
                             <div class="card" style="width: 18rem;"> 
                                 <div class="card-body text-center">
                                 <h5 class="card-title">{{package.package_name}}</h5>
+                                <h5 class="card-title">{{package.id}}</h5>
+
                                 <p class="card-text line-break-after-period">{{package.package_details1}}.</p>
                                 <p class="card-text line-break-after-period">{{package.package_details2}}.</p>
                                 <p class="card-text line-break-after-period">{{package.package_details3}}.</p>
@@ -411,19 +413,18 @@
 
 
 
-                                <form method="post">
-                                    {% csrf_token %}
-                                    
-                                    
-                                    <div class="mb-3">
-                                        <label for="{{ form.amount.id_for_label }}" class="form-label text-center class badge bg-secondary text-wrap" style="width:7rem;"><strong>AMOUNT</strong></label>
-                                        {{ form.amount }}
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
+                                
+                                
                                 </div>
                             </div>
                           </div>
+                          <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="hidden" name="package_name" value="{{ selected_name }}">
+                            <button type="submit">Invest</button>
+                        </form>
+                        
                         {% endfor %}
                         </div> 
 
@@ -441,8 +442,8 @@
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                             {% endfor %}
-                        </form> {% endcomment %}
-                        
+                        </form>
+                         {% endcomment %}
 
                 
 

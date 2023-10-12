@@ -19,6 +19,7 @@ urlpatterns = [
     path('select-coin/', views.select_coin, name='select_coin'),
     path('confirm/', views.confirm, name='confirm'),
     path('packages/', views.packages, name='packages'),
+    path('details/', views.userdetails, name='details'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
